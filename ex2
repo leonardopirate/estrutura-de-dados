@@ -1,0 +1,53 @@
+import unittest
+
+def teste(seq,max,min,cont):
+    if len(seq)==0:
+        return None, None
+    if len(seq)==1:
+        return seq[0],seq[0]
+    if cont<len(seq):
+        if int(seq[cont])>max:
+            max = int(seq[cont])
+        if int(seq[cont])<min:
+            min = int(seq[cont])
+        cont = cont+1
+        return teste(seq,max,min,cont)
+    else:
+        return max,min
+    
+
+def min_max(seq):
+    ''' funcão para encontrar o mínimo e o máximo de uma lista, respectivamente.
+    Nota-se que a memória foi usada em nível O(n), por estar diretamente e proporcionalmente ligada às stacks criadas pela recursão da função teste.
+    Percebe-se, da mesma forma, que o tempo tambem encontra-se em nível O(n), dependendo diretamente de quantos itens uma lista possui.
+    '''
+    cont=0
+    max = 0
+    if len(seq)==0:
+        return None, None
+    if len(seq)==1:
+        return seq[0],seq[0]
+    else:
+        min = int(seq[-1])
+        (res1, res2) = teste(seq,max,min,cont)
+    
+    return (res2,res1)
+    
+
+    
+class MinMaxTestes(unittest.TestCase):
+    def test_lista_vazia(self):
+        self.assertTupleEqual((None, None), min_max([]))
+
+    def test_lista_len_1(self):
+        self.assertTupleEqual((1, 1), min_max([1]))
+
+    def test_lista_consecutivos(self):
+        self.assertTupleEqual((0, 500), min_max(list(range(501))))
+
+
+if __name__ == '__main__':
+    seq = input('Digite uma sequencia: ').split()
+    print(seq)    
+    print(min_max(seq))
+    unittest.main()
